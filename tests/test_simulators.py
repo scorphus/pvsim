@@ -8,36 +8,8 @@
 # http://www.opensource.org/licenses/MIT-license
 # Copyright (c) 2017, Pablo Santiago Blum de Aguiar <pablo.aguiar@gmail.com>
 
-from math import pi
-from mock import patch
-from pvsim.simulators import PVSimulator, Simulator
+from pvsim.simulators import PVSimulator
 from unittest import TestCase
-
-
-class SimulatorTestCase(TestCase):
-
-    def setUp(self):
-        self.pcalc = Simulator()
-
-    def test_power_at_raises_not_implemented(self):
-        with self.assertRaises(NotImplementedError):
-            self.pcalc.power_at(1234)
-
-    @patch('pvsim.simulators.Simulator.power_at', return_value=1234)
-    def test_current_power_calls_power_at(self, power_at_mock):
-        power, _ = self.pcalc.current_power()
-        self.assertEqual(power, 1234)
-
-    def test_get_angle(self):
-        angle = self.pcalc.get_angle(45, 0, 360)
-        self.assertAlmostEqual(angle, pi/4)
-
-    @patch('pvsim.simulators.random.random', return_value=0.5)
-    def test_random(self, random_mock):
-        random_value = self.pcalc.random()
-        self.assertEqual(random_value, 0.95)
-        random_value = self.pcalc.random(1)
-        self.assertEqual(random_value, 0.5)
 
 
 class PVSimulatorTestCase(TestCase):
