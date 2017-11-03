@@ -26,6 +26,8 @@ class PVSimulator(PowerCalc):
         self.max_power = max_power
         self.sunrise = int(sunrise)
         self.sunset = int(sunset)
+        if sunset <= sunrise:
+            raise ValueError('inappropriate values for sunrise and sunset')
         self.light_hours = sunset - sunrise  # duration of daylight in seconds
 
     def power_at(self, seconds):

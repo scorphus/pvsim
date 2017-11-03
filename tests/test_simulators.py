@@ -17,6 +17,14 @@ class PVSimulatorTestCase(TestCase):
     def setUp(self):
         self.pvs = PVSimulator()
 
+    def test_init_raises_value_error(self):
+        with self.assertRaises(ValueError) as e:
+            PVSimulator(1234, 0, 0)
+        self.assertIn('inappropriate values', e.exception.args[0])
+        with self.assertRaises(ValueError) as e:
+            PVSimulator(1234, 'a', 4321)
+        self.assertIn('invalid literal', e.exception.args[0])
+
     def test_power_at_returns_zero_if_before_sunrise(self):
         two_am = 2 * 3600
         power = self.pvs.power_at(two_am)
