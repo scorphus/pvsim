@@ -23,6 +23,10 @@ test: clean-pyc
 coverage: clean-pyc
 	@pytest --cov-report=term-missing --cov-report=html --cov=pvsim tests/
 
+# generate docs with Sphinx
+docs: clean-pyc
+	@$(MAKE) -C docs html
+
 clean-pyc:
 	@find . -name '*.pyc' -exec rm -f {} +
 	@find . -name '*.pyo' -exec rm -f {} +

@@ -17,6 +17,7 @@ tests_require = [
     'mock',
     'pytest',
     'pytest-cov',
+    'sphinx',
 ]
 
 setup(
