@@ -8,7 +8,6 @@
 # http://www.opensource.org/licenses/MIT-license
 # Copyright (c) 2017, Pablo Santiago Blum de Aguiar <pablo.aguiar@gmail.com>
 
-import matplotlib.pyplot as plt
 import random
 import time
 
@@ -43,10 +42,3 @@ class PowerCalc(object):
 
     def random(self, factor=10):
         return (factor - random.random()) / factor
-
-    def plot_day(self):
-        x = list(self.day_range(200))
-        y = [self.power_at(xi) for xi in x]
-        fig, ax = plt.subplots(1, 1)
-        ax.plot(x, y, 'r-', lw=1, alpha=0.6, label='Power signature in a day')
-        plt.show()
