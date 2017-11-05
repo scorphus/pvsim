@@ -109,4 +109,4 @@ class HPCMeasure(Measure, PowerCalc):
         return range(self.breakfast_start, self.sunset, step)
 
     def readout(self):
-        return self.current_power()
+        return self.current_power_and_time()

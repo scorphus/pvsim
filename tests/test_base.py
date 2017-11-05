@@ -24,8 +24,8 @@ class PowerCalcTestCase(TestCase):
             self.pcalc.power_at(1234)
 
     @patch('pvsim.simulators.PowerCalc.power_at', return_value=1234)
-    def test_current_power_calls_power_at(self, power_at_mock):
-        power, localtime = self.pcalc.current_power()
+    def test_current_power_and_time_calls_power_at(self, power_at_mock):
+        power, localtime = self.pcalc.current_power_and_time()
         self.assertEqual(power, 1234)
         power_at_mock.assert_called_once_with(
             localtime.tm_hour * 3600 + localtime.tm_min * 60 + localtime.tm_sec

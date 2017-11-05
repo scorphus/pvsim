@@ -20,7 +20,7 @@ class PowerCalc(object):
     # seconds into account.
     day_length = 24 * 3600
 
-    def current_power(self):
+    def current_power_and_time(self):
         localtime = time.localtime()
         seconds = (localtime.tm_hour * 3600 + localtime.tm_min * 60 +
                    localtime.tm_sec)
