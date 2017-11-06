@@ -68,6 +68,8 @@ class RabbitMQBroker(Broker):
                 routing_key=self.routing_key,
                 body=body,
             )
+            return True
+        return False
 
     def start_consuming(self, callback):
         if self.connection is None or self.channel is None:

@@ -26,8 +26,8 @@ class GenericMeter(object):
             'localtime': localtime,
             'power': power,
         }
-        self.broker.publish(json.dumps(data))
-        logging.info('[GenericMeter] Sent %s', data)
+        if self.broker.publish(json.dumps(data)):
+            logging.info('[GenericMeter] Sent %s', data)
 
     def publish_periodically(self):
         while True:

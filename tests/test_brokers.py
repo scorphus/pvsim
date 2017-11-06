@@ -75,7 +75,7 @@ class RabbitMQBrokerTestCase(TestCase):
         )
 
     def test_publish_publishes_to_broker(self):
-        self.broker.publish('body')
+        self.assertTrue(self.broker.publish('body'))
         self.broker.channel.basic_publish.assert_called_once_with(
             exchange='exchange', routing_key='key', body='body'
         )
