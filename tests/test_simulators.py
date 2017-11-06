@@ -8,6 +8,9 @@
 # http://www.opensource.org/licenses/MIT-license
 # Copyright (c) 2017, Pablo Santiago Blum de Aguiar <pablo.aguiar@gmail.com>
 
+import json
+
+from mock import MagicMock, patch
 from pvsim.simulators import PVSimulator
 from unittest import TestCase
 
@@ -39,3 +42,49 @@ class PVSimulatorTestCase(TestCase):
         noon = 12 * 3600
         power = self.pvs.power_at(noon)
         self.assertGreater(power, 0)
+
+    def test_consume_from_broker_starts_comsuming(self):
+        broker = MagicMock()
+        self.pvs.consume_from_broker(broker)
+        broker.start_consuming.assert_called_once()
+
+    def test_message_received_writes_to_writer(self):
+        data = {'localtime': '2017-11-06', 'power': 1234}
+        writer = MagicMock()
+        self.pvs.set_writer(writer)
+        self.pvs.message_received(json.dumps(data))
+        writer.write.assert_called_once()
+
+    @patch('pvsim.simulators.logging.error')
+    def test_message_received_errs_on_decode_error(self, error_mock):
+        writer = MagicMock()
+        self.pvs.set_writer(writer)
+        self.pvs.message_received('unpackable')
+        self.assertEqual(writer.write.call_count, 0)
+        self.assertIn('Could not unpack message', error_mock.call_args[0][0])
+
+    @patch('pvsim.simulators.logging.error')
+    def test_message_received_errs_on_another_decode_error(self, error_mock):
+        writer = MagicMock()
+        self.pvs.set_writer(writer)
+        self.pvs.message_received('{"a":2')
+        self.assertEqual(writer.write.call_count, 0)
+        self.assertIn('Could not unpack message', error_mock.call_args[0][0])
+
+    @patch('pvsim.simulators.logging.error')
+    def test_message_received_errs_on_key_error(self, error_mock):
+        data = {'foo': 'bar', 'n': 359}
+        writer = MagicMock()
+        self.pvs.set_writer(writer)
+        self.pvs.message_received(json.dumps(data))
+        self.assertEqual(writer.write.call_count, 0)
+        self.assertIn('Message is incomplete', error_mock.call_args[0][0])
+
+    @patch('pvsim.simulators.logging.error')
+    def test_message_received_errs_on_type_error(self, error_mock):
+        data = {'localtime': '2017-11-06', 'power': '1234'}
+        writer = MagicMock()
+        self.pvs.set_writer(writer)
+        self.pvs.message_received(json.dumps(data))
+        self.assertEqual(writer.write.call_count, 0)
+        self.assertIn('Message is incompatible', error_mock.call_args[0][0])
