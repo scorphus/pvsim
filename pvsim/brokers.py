@@ -25,6 +25,11 @@ class Broker(object):
     def publish(self, body):
         raise NotImplementedError('publish should be implemented by subclass')
 
+    def start_consuming(self, callback):
+        raise NotImplementedError(
+            'start_consuming should be implemented by subclass'
+        )
+
 
 class RabbitMQBroker(Broker):
 
@@ -63,3 +68,17 @@ class RabbitMQBroker(Broker):
                 routing_key=self.routing_key,
                 body=body,
             )
+
+    def start_consuming(self, callback):
+        if self.connection is None or self.channel is None:
+            self.connect()
+        if self.connection is not None and not self.connection.is_closed:
+            result = self.channel.queue_declare(exclusive=True)
+            queue = result.method.queue
+            self.channel.queue_bind(
+                exchange=self.exchange,
+                queue=queue,
+                routing_key=self.routing_key,
+            )
+            self.channel.basic_consume(callback, queue=queue, no_ack=True)
+            self.channel.start_consuming()

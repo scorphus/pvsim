@@ -31,6 +31,10 @@ class BrokerTestCase(TestCase):
         with self.assertRaises(NotImplementedError):
             self.broker.publish('...')
 
+    def test_start_consuming_raises_not_implemented(self):
+        with self.assertRaises(NotImplementedError):
+            self.broker.start_consuming(None)
+
 
 class RabbitMQBrokerInitTestCase(TestCase):
 
@@ -87,3 +91,13 @@ class RabbitMQBrokerTestCase(TestCase):
         log_mock.error.assert_called_once()
         self.assertIsNone(self.broker.connection)
         self.assertIsNone(self.broker.channel)
+
+    def test_start_consuming_consumes_from_broker(self):
+        callback = MagicMock()
+        self.broker.start_consuming(callback)
+        self.broker.channel.queue_declare.assert_called_once_with(
+             exclusive=True
+        )
+        self.broker.channel.queue_bind.assert_called_once()
+        self.broker.channel.basic_consume.assert_called_once()
+        self.broker.channel.start_consuming.assert_called_once()
