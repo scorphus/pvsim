@@ -13,7 +13,7 @@ no_targets__:
 
 # install all dependencies
 setup:
-	@PIP_REQUIRE_VIRTUALENV=true pip install -U -e .\[tests\]
+	@PIP_REQUIRE_VIRTUALENV=true pip install -U -e .\[tests\] honcho
 
 # run unit tests
 test: clean-pyc
@@ -31,3 +31,7 @@ clean-pyc:
 	@find . -name '*.pyc' -exec rm -f {} +
 	@find . -name '*.pyo' -exec rm -f {} +
 	@find . -name '*~' -exec rm -f {} +
+
+# run both meter and simulator with default config
+run:
+	@honcho start
