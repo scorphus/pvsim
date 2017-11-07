@@ -9,8 +9,9 @@
 # Copyright (c) 2017, Pablo Santiago Blum de Aguiar <pablo.aguiar@gmail.com>
 
 import random
-import time
 
+from datetime import datetime
+from time import localtime, mktime
 from math import pi
 
 
@@ -20,11 +21,13 @@ class PowerCalc(object):
     # seconds into account.
     day_length = 24 * 3600
 
+    def format_localtime(self, local_time):
+        return datetime.fromtimestamp(mktime(local_time)).isoformat()
+
     def current_power_and_time(self):
-        localtime = time.localtime()
-        seconds = (localtime.tm_hour * 3600 + localtime.tm_min * 60 +
-                   localtime.tm_sec)
-        return self.power_at(seconds), localtime
+        lt = localtime()
+        seconds = lt.tm_hour * 3600 + lt.tm_min * 60 + lt.tm_sec
+        return self.power_at(seconds), self.format_localtime(lt)
 
     def day_range(self, step):
         return range(0, self.day_length, step)

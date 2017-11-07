@@ -130,8 +130,6 @@ class HPCMeasureTestCase(TestCase):
 
     @patch('pvsim.measures.HPCMeasure.power_at', return_value=1234)
     def test_readout_calls_power_at(self, power_at_mock):
-        power, localtime = self.hpcm.readout()
+        power, _ = self.hpcm.readout()
         self.assertEqual(power, 1234)
-        power_at_mock.assert_called_once_with(
-            localtime.tm_hour * 3600 + localtime.tm_min * 60 + localtime.tm_sec
-        )
+        power_at_mock.assert_called_once()
