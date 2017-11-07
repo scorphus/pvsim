@@ -1,0 +1,13 @@
+TODO: document more and extensively
+
+TODO: main: argparse to plot a day with the three curves:
+    import matplotlib.pyplot as plt
+    x = list(self.day_range(200))
+    y = [self.power_at(xi) for xi in x]
+    fig, ax = plt.subplots(1, 1)
+    ax.plot(x, y, 'r-', lw=1, alpha=0.6, label='Power signature in a day')
+    plt.show()
+
+TODO: add test for untested modules
+
+TODO: provision application with Docker
