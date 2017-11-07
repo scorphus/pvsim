@@ -10,7 +10,6 @@
 
 import pytest
 
-from math import pi
 from mock import patch
 from pvsim.measures import HPCMeasure, Measure
 from unittest import TestCase
