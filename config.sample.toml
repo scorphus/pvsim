@@ -1,0 +1,26 @@
+[measure]
+class = "pvsim.HPCMeasure"
+
+[broker]
+class = "pvsim.RabbitMQBroker"
+
+[broker.parameters]
+host = "localhost"
+port = 5672
+exchange = 'meter'
+routing_key = 'home_power_consumption'
+
+[meter]
+class = "pvsim.GenericMeter"
+
+[meter.parameters]
+interval = 2
+
+[simulator]
+class = "pvsim.PVSimulator"
+
+[writer]
+class = "pvsim.CSVWriter"
+
+[writer.parameters]
+filepath = "output.csv"

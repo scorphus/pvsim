@@ -45,8 +45,14 @@ PV Simulator Challenge
     include_package_data=False,
     install_requires=[
         'pika',
+        'toml',
     ],
     extras_require={
         'tests': tests_require,
+    },
+    entry_points={
+        'console_scripts': [
+            'pvsim=pvsim.main:main',
+        ],
     },
 )

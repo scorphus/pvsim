@@ -8,6 +8,12 @@
 # http://www.opensource.org/licenses/MIT-license
 # Copyright (c) 2017, Pablo Santiago Blum de Aguiar <pablo.aguiar@gmail.com>
 
-from pvsim.simulators import PVSimulator  # NOQA
+try:
+    from pvsim.brokers import RabbitMQBroker  # NOQA
+except ImportError:
+    pass  # An ImportError is raised while pip hasn't installe pika yet
 from pvsim.measures import HPCMeasure  # NOQA
+from pvsim.meters import GenericMeter  # NOQA
+from pvsim.simulators import PVSimulator  # NOQA
 from pvsim.version import __version__  # NOQA
+from pvsim.writers import CSVWriter  # NOQA
