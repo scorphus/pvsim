@@ -37,7 +37,7 @@ $ make test
 See how much of it is covered:
 
 ```bash
-$ make coerage
+$ make coverage
 ```
 
 ## Running
