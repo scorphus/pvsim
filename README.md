@@ -60,7 +60,7 @@ $ make run
 To generate documentation:
 
 ```bash
-$ make run
+$ make docs
 ```
 
 ## License
