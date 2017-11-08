@@ -34,8 +34,8 @@ class PVSimulatorTestCase(TestCase):
         self.assertEqual(power, 0)
 
     def test_power_at_returns_zero_when_past_sunset(self):
-        elevn_pm = 23 * 3600
-        power = self.pvs.power_at(elevn_pm)
+        eleven_pm = 23 * 3600
+        power = self.pvs.power_at(eleven_pm)
         self.assertEqual(power, 0)
 
     def test_power_at_returns_gt_zero_when_light(self):
