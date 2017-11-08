@@ -52,14 +52,14 @@ class PVSimulatorTestCase(TestCase):
         data = {'localtime': '2017-11-06', 'power': 1234}
         writer = MagicMock()
         self.pvs.set_writer(writer)
-        self.pvs.message_received(json.dumps(data))
+        self.pvs.message_received(json.dumps(data).encode())
         writer.write.assert_called_once()
 
     @patch('pvsim.simulators.logging.error')
     def test_message_received_errs_on_decode_error(self, error_mock):
         writer = MagicMock()
         self.pvs.set_writer(writer)
-        self.pvs.message_received('unpackable')
+        self.pvs.message_received(b'unpackable')
         self.assertEqual(writer.write.call_count, 0)
         self.assertIn('Could not unpack message', error_mock.call_args[0][0])
 
@@ -67,7 +67,7 @@ class PVSimulatorTestCase(TestCase):
     def test_message_received_errs_on_another_decode_error(self, error_mock):
         writer = MagicMock()
         self.pvs.set_writer(writer)
-        self.pvs.message_received('{"a":2')
+        self.pvs.message_received(b'{"a":2')
         self.assertEqual(writer.write.call_count, 0)
         self.assertIn('Could not unpack message', error_mock.call_args[0][0])
 
@@ -76,7 +76,7 @@ class PVSimulatorTestCase(TestCase):
         data = {'foo': 'bar', 'n': 359}
         writer = MagicMock()
         self.pvs.set_writer(writer)
-        self.pvs.message_received(json.dumps(data))
+        self.pvs.message_received(json.dumps(data).encode())
         self.assertEqual(writer.write.call_count, 0)
         self.assertIn('Message is incomplete', error_mock.call_args[0][0])
 
@@ -85,6 +85,6 @@ class PVSimulatorTestCase(TestCase):
         data = {'localtime': '2017-11-06', 'power': '1234'}
         writer = MagicMock()
         self.pvs.set_writer(writer)
-        self.pvs.message_received(json.dumps(data))
+        self.pvs.message_received(json.dumps(data).encode())
         self.assertEqual(writer.write.call_count, 0)
         self.assertIn('Message is incompatible', error_mock.call_args[0][0])

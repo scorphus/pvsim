@@ -7,7 +7,7 @@ power values (in kW).
 
 ### Dependencies
 
-- Python 3.6 or 3.5
+- Python `2.7`, `3.3`, `3.4`, `3.5`, `3.6` or PyPy
 - RabbitMQ
 
 ### Makefile
@@ -38,6 +38,12 @@ See how much of it is covered:
 
 ```bash
 $ make coverage
+```
+
+Make sure it works with all supported Python versions:
+
+```bash
+$ make tox
 ```
 
 ## Running

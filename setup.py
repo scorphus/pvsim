@@ -18,6 +18,7 @@ tests_require = [
     'pytest',
     'pytest-cov',
     'sphinx',
+    'tox',
 ]
 
 setup(
@@ -37,9 +38,14 @@ PV Simulator Challenge
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
-        'Operating System :: Unix',
-        'Programming Language :: Python :: 3.6',
         'Operating System :: OS Independent',
+        'Operating System :: Unix',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: Implementation :: PyPy',
     ],
     packages=find_packages(),
     include_package_data=False,

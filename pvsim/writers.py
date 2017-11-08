@@ -30,6 +30,6 @@ class CSVWriter(Writer):
         self.filepath = filepath
 
     def write(self, data):
-        with open(self.filepath, 'a', newline='') as fp:
+        with open(self.filepath, 'a') as fp:
             csv_writer = csv.writer(fp)
             csv_writer.writerow(data)

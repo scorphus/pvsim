@@ -23,6 +23,10 @@ test: clean-pyc
 coverage: clean-pyc
 	@pytest --cov-report=term-missing --cov-report=html --cov=pvsim tests/
 
+# run unit tests with tox on all supported Python versions
+tox: clean-pyc
+	@tox
+
 # generate docs with Sphinx
 docs: clean-pyc
 	@$(MAKE) -C docs html

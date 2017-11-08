@@ -15,6 +15,11 @@ from math import cos
 from pvsim.base import PowerCalc
 from pvsim.writers import StdoutWriter
 
+try:
+    from json.decoder import JSONDecodeError
+except ImportError:
+    JSONDecodeError = ValueError
+
 
 class PVSimulator(PowerCalc):
     '''The PVSimulator simulates a photovoltaic power generator. For simplicity,
@@ -54,7 +59,7 @@ class PVSimulator(PowerCalc):
     def message_received(self, body):
         logging.info('[PVSimulator] Received %s', body)
         try:
-            message = json.loads(body)
+            message = json.loads(body.decode())
             localtime = message['localtime']
             consumed_power = message['power'] / 1000
             generated_power, _ = self.current_power_and_time()
@@ -63,7 +68,7 @@ class PVSimulator(PowerCalc):
             self.writer.write([
                 localtime, consumed_power, generated_power, power_sum
             ])
-        except (json.decoder.JSONDecodeError, ValueError) as e:
+        except JSONDecodeError as e:
             logging.error('[PVSimulator] Could not unpack message: %s', e)
         except KeyError as e:
             logging.error('[PVSimulator] Message is incomplete: %s', e)
