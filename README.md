@@ -1,4 +1,4 @@
-# PV Simulator Challenge
+# Photovoltaic Simulation
 
 An application which, among other tasks, generates simulated PV (photovoltaic)
 power values (in kW).
